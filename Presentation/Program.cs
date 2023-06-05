@@ -17,7 +17,9 @@ public class Program : FunctionsStartup
     {
         var services = builder.Services;
 
-        services.AddApplicationServices()
+        services
+            .AddPresentationServices()
+            .AddApplicationServices()
             .AddInfrastructureServices()
             .AddApplicationInsightsTelemetryWorkerService()
             .AddDistributedMemoryCache()

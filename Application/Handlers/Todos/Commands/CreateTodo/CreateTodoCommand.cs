@@ -6,7 +6,7 @@ namespace Application.Handlers.Todos.Commands.CreateTodo;
 
 public sealed record CreateTodoCommand : IRequest<Todo>
 {
-    public Todo Todo { get; init; } = null!;
+    public string Name { get; init; } = null!;
 }
 
 public sealed record
@@ -22,10 +22,14 @@ public sealed record
     public async Task<Todo> Handle(CreateTodoCommand request,
         CancellationToken cancellationToken)
     {
-        _todoDbContext.Todo.Add(request.Todo);
+        var todo = new Todo
+        {
+            Name = request.Name
+        };
+        _todoDbContext.Todo.Add(todo);
 
         await _todoDbContext.SaveChangesAsync(cancellationToken);
 
-        return request.Todo;
+        return todo;
     }
 }

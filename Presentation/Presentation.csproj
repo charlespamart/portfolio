@@ -7,23 +7,17 @@
         <UserSecretsId>5fa16497-206f-4b2f-8672-2f4ac17872b9</UserSecretsId>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.14.0" />
-        <PackageReference Include="Azure.Storage.Blobs" Version="12.16.0" />
         <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.2.0" />
-        <PackageReference Include="CsvHelper" Version="30.0.1" />
-        <PackageReference Include="Duende.AccessTokenManagement" Version="2.0.0" />
         <PackageReference Include="FluentValidation" Version="11.5.2" />
         <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
         <PackageReference Include="Kahdomi.Identity.Password" Version="6.0.0" />
         <PackageReference Include="Mapster" Version="7.3.0" />
-        <PackageReference Include="Mediator.Net" Version="4.7.0" />
         <PackageReference Include="MediatR" Version="12.0.1" />
         <PackageReference Include="Microsoft.ApplicationInsights.WorkerService" Version="2.21.0" />
         <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
         <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.OpenApi" Version="1.5.1" />
         <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.ServiceBus" Version="5.10.0" />
         <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage.Blobs" Version="5.1.2" />
-        <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage.Queues" Version="5.1.2" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.16" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.16">
           <PrivateAssets>all</PrivateAssets>

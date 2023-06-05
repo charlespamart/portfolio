@@ -6,7 +6,7 @@ public sealed class CreateTodoCommandValidator : AbstractValidator<CreateTodoCom
 {
     public CreateTodoCommandValidator()
     {
-        RuleFor(model => model.Todo)
+        RuleFor(model => model.Name)
             .NotEmpty();
     }
 }

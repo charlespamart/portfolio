@@ -19,7 +19,7 @@ using Presentation.Todos.GetTodos;
 
 namespace Presentation.Todos;
 
-public class TodoController
+public sealed class TodoController
 {
     private readonly IMediator _mediator;
     private readonly IValidator<GetTodoRequest> _getTodoValidator;
