@@ -8,14 +8,38 @@ namespace Infrastructure;
 
 public static class ConfigureService
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
-    {
-        var databaseConnectionString = Environment.GetEnvironmentVariable("Database:ConnectionString");
+    private const string DatabaseName = "TodoDB";
 
-        Guard.IsNotNullOrEmpty(databaseConnectionString);
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services) =>
+        services.AddPostgresTodoDbContext();
+
+    private static IServiceCollection AddPostgresTodoDbContext(this IServiceCollection services)
+    {
+        var postgresDatabaseConnectionString =
+            Environment.GetEnvironmentVariable("Databases:Postgres:ConnectionString");
+
+        Guard.IsNotNullOrEmpty(postgresDatabaseConnectionString);
 
         services.AddDbContext<TodoDbContext>(options =>
-            options.UseNpgsql(databaseConnectionString));
+            options.UseNpgsql(postgresDatabaseConnectionString));
+
+        return services.AddScoped<ITodoDbContext, TodoDbContext>();
+    }
+
+    private static IServiceCollection AddMySqlTodoDbContext(this IServiceCollection services)
+    {
+        var mySqlDatabaseConnectionString = Environment.GetEnvironmentVariable("Databases:MySQL:ConnectionString");
+
+        Guard.IsNotNullOrEmpty(mySqlDatabaseConnectionString);
+
+        services.AddDbContext<TodoDbContext>(options => options.UseMySQL(mySqlDatabaseConnectionString));
+
+        return services.AddScoped<ITodoDbContext, TodoDbContext>();
+    }
+
+    private static IServiceCollection AddInMemoryTodoDbContext(this IServiceCollection services)
+    {
+        services.AddDbContext<TodoDbContext>(options => options.UseInMemoryDatabase(DatabaseName));
 
         return services.AddScoped<ITodoDbContext, TodoDbContext>();
     }

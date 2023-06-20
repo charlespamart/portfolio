@@ -9,9 +9,10 @@ namespace Presentation;
 
 public static class ConfigureService
 {
-    public static IServiceCollection AddPresentationServices(this IServiceCollection services) =>
+    public static IServiceCollection AddPresentationServices(this IServiceCollection services,
+        IConfiguration configuration) =>
         services
-            .AddOptionsConfigurations()
+            .AddOptionsConfigurations(configuration)
             .AddFluentValidation();
 
     private static IServiceCollection AddFluentValidation(this IServiceCollection services)
@@ -19,12 +20,20 @@ public static class ConfigureService
             .AddSingleton<IValidator<GetTodoRequest>, GetTodoRequestValidator>()
             .AddSingleton<IValidator<CreateTodoRequest>, CreateTodoRequestValidator>();
 
-    private static IServiceCollection AddOptionsConfigurations(this IServiceCollection services)
+    private static IServiceCollection AddOptionsConfigurations(this IServiceCollection services,
+        IConfiguration configuration)
     {
-        services.AddOptions<BlobStorageOptions>().Configure<IConfiguration>((storageConfiguration, configuration) =>
+        BlobStorageOptions blobStorageOptions = null!;
+        services.ConfigureAndValidate<BlobStorageOptions>(blobStorageOptions =>
         {
-            configuration.GetSection("BlobStorage").Bind(storageConfiguration);
+            blobStorageOptions = configuration.GetSection("BlobStorage").Get<BlobStorageOptions>();
+            configuration.GetSection("BlobStorage").Bind(blobStorageOptions);
         });
+
+        // services.AddOptions<BlobStorageOptions>().Configure<IConfiguration>((storageConfiguration, configuration) =>
+        // {
+        //     configuration.GetSection("BlobStorage").Bind(storageConfiguration);
+        // }).ValidateDataAnnotationsRecursively().ValidateOnStart();
 
         return services;
     }

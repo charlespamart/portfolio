@@ -3,8 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain.Models;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
-using Microsoft.Extensions.Logging;
 
 namespace Presentation.Functions;
 

@@ -30,7 +30,7 @@ public sealed class GpmDbContextFactory : IDesignTimeDbContextFactory<TodoDbCont
 {
     public TodoDbContext CreateDbContext(string[] args)
     {
-        var databaseConnectionString = Environment.GetEnvironmentVariable("Database:ConnectionString");
+        var databaseConnectionString = Environment.GetEnvironmentVariable("Database:Postgres:ConnectionString");
 
         Guard.IsNotNullOrEmpty(databaseConnectionString);
 
