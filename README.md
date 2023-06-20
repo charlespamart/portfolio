@@ -6,7 +6,7 @@ J'applique des règles que je me suis fixé : https://kahes.atlassian.net/l/cp/H
 
 J'utilise les libraries suivantes afin d'appliquer les différents Design Pattern, choix d'architecture etc ... : 
 
-MediatR 12.0.1
-CommunityToolkit.Diagnostics 8.2.0
+MediatR 12.0.1  
+CommunityToolkit.Diagnostics 8.2.0  
 
 Le dossier Functions dans la coucher Présentation contient des exemples d'utilisation du Binding dans une Azure Function
