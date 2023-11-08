@@ -11,17 +11,17 @@ public sealed record
     GetTodosQueryHandler : IRequestHandler<GetTodosQuery,
         ICollection<Todo>>
 {
-    private readonly ITodoDbContext _gpmDbContext;
+    private readonly ITodoDbContext _todoDbContext;
 
     public GetTodosQueryHandler(ITodoDbContext gpmDbContext)
     {
-        _gpmDbContext = gpmDbContext;
+        _todoDbContext = gpmDbContext;
     }
 
     public async Task<ICollection<Todo>> Handle(GetTodosQuery request,
         CancellationToken cancellationToken)
     {
-        var query = _gpmDbContext.Todo
+        var query = _todoDbContext.Todo
             .AsNoTracking();
 
         return await query.ToListAsync(cancellationToken);

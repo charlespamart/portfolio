@@ -12,15 +12,15 @@ public sealed record GetTodoQuery : IRequest<Todo?>
 public sealed record
     GetTodoQueryHandler : IRequestHandler<GetTodoQuery, Todo?>
 {
-    private readonly ITodoDbContext _gpmDbContext;
+    private readonly ITodoDbContext _todoDbContext;
 
     public GetTodoQueryHandler(ITodoDbContext gpmDbContext)
     {
-        _gpmDbContext = gpmDbContext;
+        _todoDbContext = gpmDbContext;
     }
 
     public async Task<Todo?> Handle(GetTodoQuery request,
         CancellationToken cancellationToken) =>
-        await _gpmDbContext.Todo
+        await _todoDbContext.Todo
             .FindAsync(request.Id, cancellationToken);
 }
