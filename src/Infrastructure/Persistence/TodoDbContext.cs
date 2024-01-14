@@ -7,12 +7,8 @@ using Infrastructure.Persistence.Configuration;
 
 namespace Infrastructure.Persistence;
 
-public class TodoDbContext : DbContext, ITodoDbContext
+public class TodoDbContext(DbContextOptions<TodoDbContext> options) : DbContext(options), ITodoDbContext
 {
-    public TodoDbContext(DbContextOptions<TodoDbContext> options) : base(options)
-    {
-    }
-
     public DbSet<Todo> Todo => Set<Todo>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -24,9 +20,9 @@ public class TodoDbContext : DbContext, ITodoDbContext
 }
 
 /// <summary>
-/// This is necessary for using DbContext in a Function App
+/// This is necessary to use DbContext in a Function App
 /// </summary>
-public sealed class GpmDbContextFactory : IDesignTimeDbContextFactory<TodoDbContext>
+public sealed class TodoDbContextFactory : IDesignTimeDbContextFactory<TodoDbContext>
 {
     public TodoDbContext CreateDbContext(string[] args)
     {

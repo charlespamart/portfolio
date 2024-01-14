@@ -6,19 +6,12 @@ namespace Application.Handlers.Todos.Commands.CreateTodo;
 
 public sealed record CreateTodoCommand : IRequest<Todo>
 {
-    public string Name { get; init; } = null!;
+    public required string Name { get; init; }
 }
 
-public sealed record
-    CreateTodoCommandHandler : IRequestHandler<CreateTodoCommand, Todo>
+public sealed class
+    CreateTodoCommandHandler(ITodoDbContext todoDbContext) : IRequestHandler<CreateTodoCommand, Todo>
 {
-    private readonly ITodoDbContext _todoDbContext;
-
-    public CreateTodoCommandHandler(ITodoDbContext todoDbContext)
-    {
-        _todoDbContext = todoDbContext;
-    }
-
     public async Task<Todo> Handle(CreateTodoCommand request,
         CancellationToken cancellationToken)
     {
@@ -26,9 +19,10 @@ public sealed record
         {
             Name = request.Name
         };
-        _todoDbContext.Todo.Add(todo);
 
-        await _todoDbContext.SaveChangesAsync(cancellationToken);
+        todoDbContext.Todo.Add(todo);
+
+        await todoDbContext.SaveChangesAsync(cancellationToken);
 
         return todo;
     }

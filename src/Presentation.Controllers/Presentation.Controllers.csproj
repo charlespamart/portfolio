@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <InvariantGlobalization>true</InvariantGlobalization>
+        <UserSecretsId>7b1ee117-25dd-48f2-86e5-2221c5aeb19f</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Mapster" Version="7.4.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Application\Application.csproj" />
+      <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Models\" />
+    </ItemGroup>
+
+</Project>

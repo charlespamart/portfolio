@@ -1,45 +1,49 @@
 ﻿using Application.Common.Interfaces;
-using CommunityToolkit.Diagnostics;
+using Domain.OptionConfigurations;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace Infrastructure;
 
 public static class ConfigureService
 {
-    private const string DatabaseName = "TodoDB";
-
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services) =>
-        services.AddPostgresTodoDbContext();
+        services.AddInMemoryTodoDbContext();
 
     private static IServiceCollection AddPostgresTodoDbContext(this IServiceCollection services)
     {
-        var postgresDatabaseConnectionString =
-            Environment.GetEnvironmentVariable("Databases:Postgres:ConnectionString");
-
-        Guard.IsNotNullOrEmpty(postgresDatabaseConnectionString);
-
-        services.AddDbContext<TodoDbContext>(options =>
-            options.UseNpgsql(postgresDatabaseConnectionString));
+        services.AddDbContext<TodoDbContext>((serviceProvider, options) =>
+        {
+            var postgresDbOptions = serviceProvider.GetRequiredService<IOptions<PostgresDbOptions>>();
+            var postgresDbConnectionString = postgresDbOptions.Value.ConnectionString;
+            options.UseNpgsql(postgresDbConnectionString);
+        });
 
         return services.AddScoped<ITodoDbContext, TodoDbContext>();
     }
 
     private static IServiceCollection AddMySqlTodoDbContext(this IServiceCollection services)
     {
-        var mySqlDatabaseConnectionString = Environment.GetEnvironmentVariable("Databases:MySQL:ConnectionString");
-
-        Guard.IsNotNullOrEmpty(mySqlDatabaseConnectionString);
-
-        services.AddDbContext<TodoDbContext>(options => options.UseMySQL(mySqlDatabaseConnectionString));
+        services.AddDbContext<TodoDbContext>((serviceProvider, options) =>
+        {
+            var mySqlDbOptions = serviceProvider.GetRequiredService<IOptions<MySqlDbOptions>>();
+            var mySqlDbConnectionString = mySqlDbOptions.Value.ConnectionString;
+            options.UseMySQL(mySqlDbConnectionString);
+        });
 
         return services.AddScoped<ITodoDbContext, TodoDbContext>();
     }
 
     private static IServiceCollection AddInMemoryTodoDbContext(this IServiceCollection services)
     {
-        services.AddDbContext<TodoDbContext>(options => options.UseInMemoryDatabase(DatabaseName));
+        services.AddDbContext<TodoDbContext>((serviceProvider, options) =>
+        {
+            var inMemoryDbOptions = serviceProvider.GetRequiredService<IOptions<InMemoryDbOptions>>();
+            var inMemoryDbName = inMemoryDbOptions.Value.DbName;
+            options.UseInMemoryDatabase(inMemoryDbName);
+        });
 
         return services.AddScoped<ITodoDbContext, TodoDbContext>();
     }
