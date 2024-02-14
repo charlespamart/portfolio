@@ -1,6 +1,6 @@
-using Application;
+﻿using Application;
 using Infrastructure;
-using Presentation.Controllers.Configurations;
+using Presentation.FastEndpoints.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;

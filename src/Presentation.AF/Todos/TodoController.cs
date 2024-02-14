@@ -9,8 +9,6 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Application.Handlers.Todos.Commands.CreateTodo;
 using Application.Handlers.Todos.Queries.GetTodo;
 using Application.Handlers.Todos.Queries.GetTodos;
-using Domain.Models;
-using FromBody = Microsoft.Azure.Functions.Worker.Http.FromBodyAttribute;
 
 namespace Presentation.AF.Todos;
 

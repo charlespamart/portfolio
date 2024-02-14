@@ -1,6 +1,8 @@
+using Asp.Versioning;
 using Domain.OptionConfigurations;
+using Microsoft.OpenApi.Models;
 
-namespace Presentation.Controllers;
+namespace Presentation.Controllers.Configurations;
 
 public static class ConfigureService
 {
@@ -10,6 +12,7 @@ public static class ConfigureService
             .AddSwagger();
         services.AddMvc();
         services.AddControllers();
+        services.AddApiUriVersioning();
 
         return services;
     }
@@ -40,7 +43,28 @@ public static class ConfigureService
     private static IServiceCollection AddSwagger(this IServiceCollection services)
     {
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+        services.AddSwaggerGen(setup =>
+        {
+            setup.SwaggerDoc("v1", new OpenApiInfo { Title = "API V1", Version = "v1" });
+            setup.SwaggerDoc("v2", new OpenApiInfo { Title = "API V2", Version = "v2" });
+        });
+
+        return services;
+    }
+
+    private static IServiceCollection AddApiUriVersioning(this IServiceCollection services)
+    {
+        services.AddApiVersioning(setup =>
+        {
+            setup.DefaultApiVersion = new ApiVersion(1, 0);
+            setup.ReportApiVersions = true;
+            setup.ApiVersionReader = new UrlSegmentApiVersionReader();
+        }).AddApiExplorer(
+            options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+            });
 
         return services;
     }

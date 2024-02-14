@@ -2,16 +2,18 @@
 using Application.Handlers.Todos.Commands.CreateTodo;
 using Application.Handlers.Todos.Queries.GetTodo;
 using Application.Handlers.Todos.Queries.GetTodos;
+using Asp.Versioning;
 using Domain.Models;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Presentation.Controllers.Models.Todos;
+using Presentation.Controllers.V2.Models.Todos;
 
-namespace Presentation.Controllers.Controllers;
+namespace Presentation.Controllers.V2.Controllers;
 
 [ApiController]
-[Route($"api/{ControllerName}")]
+[Route($"api/v{{version:apiVersion}}/{ControllerName}")]
+[ApiVersion("2.0")]
 public sealed class TodoController(
     ISender mediator)
     : ControllerBase
@@ -24,6 +26,7 @@ public sealed class TodoController(
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [MapToApiVersion(2)]
     public async Task<ActionResult<Todo>> GetTodoAsync(
         [FromRoute] Guid todoId,
         CancellationToken cancellationToken)
@@ -37,25 +40,27 @@ public sealed class TodoController(
     }
 
     [HttpGet]
-    [Produces<Todo>]
-    [ActionName(nameof(GetTodos))]
+    [Produces<ICollection<Todo>>]
+    [ActionName(nameof(GetTodosAsync))]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ICollection<Todo>>> GetTodos(
+    [MapToApiVersion(2)]
+    public async Task<ActionResult<ICollection<Todo>>> GetTodosAsync(
         CancellationToken cancellationToken) =>
         (await mediator.Send(new GetTodosQuery(), cancellationToken)).ToList();
 
     [HttpPost]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces<Todo>]
-    [ActionName(nameof(CreateTodo))]
+    [ActionName(nameof(CreateTodoAsync))]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Todo>> CreateTodo(
+    [MapToApiVersion(2)]
+    public async Task<ActionResult<Todo>> CreateTodoAsync(
         [FromBody] CreateTodoRequest request,
         CancellationToken cancellationToken)
     {
         var todo = await mediator.Send(request.Adapt<CreateTodoCommand>(), cancellationToken);
-        return CreatedAtAction(nameof(CreateTodo), new { id = todo.Id }, todo);
+        return CreatedAtAction(nameof(CreateTodoAsync), new { id = todo.Id }, todo);
     }
 }

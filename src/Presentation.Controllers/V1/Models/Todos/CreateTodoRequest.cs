@@ -1,4 +1,4 @@
-﻿namespace Presentation.Controllers.Models.Todos;
+﻿namespace Presentation.Controllers.V1.Models.Todos;
 
 public sealed record CreateTodoRequest
 {
