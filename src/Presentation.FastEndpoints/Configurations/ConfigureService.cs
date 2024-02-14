@@ -15,7 +15,7 @@ public static class ConfigureService
         return services;
     }
 
-    private static IServiceCollection AddOptionsConfigurations(this IServiceCollection services)
+    private static void AddOptionsConfigurations(this IServiceCollection services)
     {
         services
             .AddOptions<PostgresDbOptions>()
@@ -34,11 +34,9 @@ public static class ConfigureService
             .BindConfiguration("InMemoryDb")
             .ValidateDataAnnotations()
             .ValidateOnStart();
-
-        return services;
     }
 
-    private static IServiceCollection AddSwaggerDocuments(this IServiceCollection services)
+    private static void AddSwaggerDocuments(this IServiceCollection services)
     {
         services.SwaggerDocument(setup =>
             {
@@ -60,7 +58,5 @@ public static class ConfigureService
                     s.Version = "v2";
                 };
             });
-
-        return services;
     }
 }
