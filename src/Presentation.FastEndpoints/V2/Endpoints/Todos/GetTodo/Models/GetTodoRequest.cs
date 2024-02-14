@@ -1,4 +1,4 @@
-﻿namespace Presentation.FastEndpoints.V1.Models.Todos;
+﻿namespace Presentation.FastEndpoints.V2.Endpoints.Todos.GetTodo.Models;
 
 public sealed class GetTodoRequest
 {

@@ -2,16 +2,16 @@
 using Domain.Models;
 using FastEndpoints;
 using MediatR;
-using Presentation.FastEndpoints.V1.Models.Todos;
+using Presentation.FastEndpoints.V2.Endpoints.Todos.GetTodo.Models;
 
-namespace Presentation.FastEndpoints.V1.Endpoints.Todos;
+namespace Presentation.FastEndpoints.V2.Endpoints.Todos.GetTodo;
 
-public sealed class GetTodo(ISender mediator)
+public sealed class GetTodoEndpoint(ISender mediator)
     : Endpoint<GetTodoRequest, Todo>
 {
     public override void Configure()
     {
-        Version(1);
+        Version(2);
         Get("api/todos/{TodoId}");
         AllowAnonymous();
     }

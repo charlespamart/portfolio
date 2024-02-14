@@ -3,16 +3,17 @@ using Domain.Models;
 using FastEndpoints;
 using Mapster;
 using MediatR;
-using Presentation.FastEndpoints.V1.Models.Todos;
+using Presentation.FastEndpoints.V2.Endpoints.Todos.CreateTodo.Models;
+using Presentation.FastEndpoints.V2.Endpoints.Todos.GetTodo;
 
-namespace Presentation.FastEndpoints.V1.Endpoints.Todos;
+namespace Presentation.FastEndpoints.V2.Endpoints.Todos.CreateTodo;
 
-public sealed class CreateTodo(ISender mediator)
+public sealed class CreateTodoEndpoint(ISender mediator)
     : Endpoint<CreateTodoRequest, Todo>
 {
     public override void Configure()
     {
-        Version(1);
+        Version(2);
         Post("api/todos");
         AllowAnonymous();
     }
@@ -21,6 +22,6 @@ public sealed class CreateTodo(ISender mediator)
         CancellationToken cancellationToken)
     {
         var todo = await mediator.Send(request.Adapt<CreateTodoCommand>(), cancellationToken);
-        await SendCreatedAtAsync<GetTodo>(todo.Id, todo, cancellation: cancellationToken);
+        await SendCreatedAtAsync<GetTodoEndpoint>(todo.Id, todo, cancellation: cancellationToken);
     }
 }

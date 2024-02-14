@@ -3,9 +3,9 @@ using Domain.Models;
 using FastEndpoints;
 using MediatR;
 
-namespace Presentation.FastEndpoints.V2.Endpoints.Todos;
+namespace Presentation.FastEndpoints.V2.Endpoints.Todos.GetTodos;
 
-public sealed class GetTodos(ISender mediator)
+public sealed class GetTodosEndpoint(ISender mediator)
     : EndpointWithoutRequest<ICollection<Todo>>
 {
     public override void Configure()

@@ -1,4 +1,4 @@
-﻿namespace Presentation.FastEndpoints.V1.Models.Todos;
+﻿namespace Presentation.FastEndpoints.V1.Endpoints.Todos.CreateTodo.Models;
 
 public sealed record CreateTodoRequest
 {
