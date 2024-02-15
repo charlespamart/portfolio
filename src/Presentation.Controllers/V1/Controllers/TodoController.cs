@@ -8,11 +8,11 @@ using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Controllers.V1.Models.Todos;
+using Presentation.FastEndpoints.Common;
 
 namespace Presentation.Controllers.V1.Controllers;
 
 [ApiController]
-[Route($"api/v{{version:apiVersion}}/{ControllerName}")]
 [ApiVersion("1.0")]
 public sealed class TodoController(
     ISender mediator)
@@ -20,7 +20,7 @@ public sealed class TodoController(
 {
     private const string ControllerName = "todos";
 
-    [HttpGet("{todoId:guid}")]
+    [HttpGet(ApiRoutes.Todo.GetTodo)]
     [Produces<Todo>]
     [ActionName(nameof(GetTodoAsync))]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -39,7 +39,7 @@ public sealed class TodoController(
         return todo;
     }
 
-    [HttpGet]
+    [HttpGet(ApiRoutes.Todo.GetTodos)]
     [Produces<ICollection<Todo>>]
     [ActionName(nameof(GetTodosAsync))]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -49,7 +49,7 @@ public sealed class TodoController(
         CancellationToken cancellationToken) =>
         (await mediator.Send(new GetTodosQuery(), cancellationToken)).ToList();
 
-    [HttpPost]
+    [HttpPost(ApiRoutes.Todo.CreateTodo)]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces<Todo>]
     [ActionName(nameof(CreateTodoAsync))]

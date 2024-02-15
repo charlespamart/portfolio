@@ -3,6 +3,7 @@ using Domain.Models;
 using FastEndpoints;
 using Mapster;
 using MediatR;
+using Presentation.FastEndpoints.Common;
 using Presentation.FastEndpoints.V2.Models.Todos;
 
 namespace Presentation.FastEndpoints.V2.Endpoints.Todos;
@@ -13,7 +14,7 @@ public sealed class CreateTodo(ISender mediator)
     public override void Configure()
     {
         Version(2);
-        Post("api/todos");
+        Post(ApiRoutes.Todo.CreateTodo);
         AllowAnonymous();
     }
 

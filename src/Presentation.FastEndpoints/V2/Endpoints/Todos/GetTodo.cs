@@ -2,6 +2,7 @@
 using Domain.Models;
 using FastEndpoints;
 using MediatR;
+using Presentation.FastEndpoints.Common;
 using Presentation.FastEndpoints.V2.Models.Todos;
 
 namespace Presentation.FastEndpoints.V2.Endpoints.Todos;
@@ -12,7 +13,7 @@ public sealed class GetTodo(ISender mediator)
     public override void Configure()
     {
         Version(2);
-        Get("api/todos/{TodoId}");
+        Get(ApiRoutes.Todo.GetTodo);
         AllowAnonymous();
     }
 
