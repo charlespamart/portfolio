@@ -11,22 +11,26 @@ namespace Application;
 
 public static class ConfigureService
 {
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services) =>
-        services
-            .AddMediatR()
-            .AddFluentValidation();
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    {
+        services.AddMediatR();
+        services.AddFluentValidation();
 
-    private static IServiceCollection AddMediatR(this IServiceCollection services)
+        return services;
+    }
+
+    private static void AddMediatR(this IServiceCollection services)
     {
         var serviceConfig = new MediatRServiceConfiguration();
         ServiceRegistrar.AddRequiredServices(services, serviceConfig);
 
-        return services.AddTransient<IRequestHandler<GetTodosQuery, ICollection<Todo>>, GetTodosQueryHandler>()
+        services
+            .AddTransient<IRequestHandler<GetTodosQuery, ICollection<Todo>>, GetTodosQueryHandler>()
             .AddTransient<IRequestHandler<GetTodoQuery, Todo?>, GetTodoQueryHandler>()
             .AddTransient<IRequestHandler<CreateTodoCommand, Todo>, CreateTodoCommandHandler>();
     }
 
-    private static IServiceCollection AddFluentValidation(this IServiceCollection services) =>
+    private static void AddFluentValidation(this IServiceCollection services) =>
         services
             .AddSingleton<IValidator<CreateTodoCommand>, CreateTodoCommandValidator>()
             .AddSingleton<IValidator<GetTodoQuery>, GetTodoQueryValidator>();

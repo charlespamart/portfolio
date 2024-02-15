@@ -4,14 +4,14 @@ using FastEndpoints;
 using MediatR;
 using Presentation.FastEndpoints.Common;
 
-namespace Presentation.FastEndpoints.V1.Endpoints.Todos;
+namespace Presentation.FastEndpoints.V2.Endpoints.Todos.GetTodos;
 
-public sealed class GetTodos(ISender mediator)
+public sealed class GetTodosEndpoint(ISender mediator)
     : EndpointWithoutRequest<ICollection<Todo>>
 {
     public override void Configure()
     {
-        Version(1);
+        Version(2);
         Get(ApiRoutes.Todo.GetTodos);
         AllowAnonymous();
     }

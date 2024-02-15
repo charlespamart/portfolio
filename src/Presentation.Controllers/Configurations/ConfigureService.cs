@@ -8,16 +8,16 @@ public static class ConfigureService
 {
     public static IServiceCollection AddPresentationServices(this IServiceCollection services)
     {
-        services.AddOptionsConfigurations()
-            .AddSwagger();
+        services.AddOptionsConfigurations();
+        services.AddSwagger();
         services.AddMvc();
         services.AddControllers();
-        services.AddApiUriVersioning();
+        services.AddApiVersioning();
 
         return services;
     }
 
-    private static IServiceCollection AddOptionsConfigurations(this IServiceCollection services)
+    private static void AddOptionsConfigurations(this IServiceCollection services)
     {
         services
             .AddOptions<PostgresDbOptions>()
@@ -36,11 +36,9 @@ public static class ConfigureService
             .BindConfiguration("InMemoryDb")
             .ValidateDataAnnotations()
             .ValidateOnStart();
-
-        return services;
     }
 
-    private static IServiceCollection AddSwagger(this IServiceCollection services)
+    private static void AddSwagger(this IServiceCollection services)
     {
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(setup =>
@@ -48,11 +46,9 @@ public static class ConfigureService
             setup.SwaggerDoc("v1", new OpenApiInfo { Title = "API V1", Version = "v1" });
             setup.SwaggerDoc("v2", new OpenApiInfo { Title = "API V2", Version = "v2" });
         });
-
-        return services;
     }
 
-    private static IServiceCollection AddApiUriVersioning(this IServiceCollection services)
+    private static void AddApiVersioning(this IServiceCollection services)
     {
         services.AddApiVersioning(setup =>
         {
@@ -65,7 +61,5 @@ public static class ConfigureService
                 options.GroupNameFormat = "'v'VVV";
                 options.SubstituteApiVersionInUrl = true;
             });
-
-        return services;
     }
 }
