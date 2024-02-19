@@ -1,4 +1,5 @@
-﻿using Application.Handlers.Todos.Queries.GetTodos;
+﻿using System.Net;
+using Application.Handlers.Todos.Queries.GetTodos;
 using Domain.Models;
 using FastEndpoints;
 using MediatR;
@@ -13,7 +14,10 @@ public sealed class GetTodosEndpoint(ISender mediator)
     {
         Version(1);
         Get(ApiRoutes.Todo.GetTodos);
-        AllowAnonymous();
+        Description(setup =>
+        {
+            setup.Produces<ICollection<Todo>>();
+        });
     }
 
     public override async Task HandleAsync(CancellationToken cancellationToken)

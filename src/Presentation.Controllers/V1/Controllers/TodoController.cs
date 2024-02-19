@@ -18,8 +18,6 @@ public sealed class TodoController(
     ISender mediator)
     : ControllerBase
 {
-    private const string ControllerName = "todos";
-
     [HttpGet(ApiRoutes.Todo.GetTodo)]
     [Produces<Todo>]
     [ActionName(nameof(GetTodoAsync))]

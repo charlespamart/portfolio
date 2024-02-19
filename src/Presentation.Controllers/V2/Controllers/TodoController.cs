@@ -13,14 +13,11 @@ using Presentation.FastEndpoints.Common;
 namespace Presentation.Controllers.V2.Controllers;
 
 [ApiController]
-[Route($"api/v{{version:apiVersion}}/{ControllerName}")]
 [ApiVersion("2.0")]
 public sealed class TodoController(
     ISender mediator)
     : ControllerBase
 {
-    private const string ControllerName = "todos";
-
     [HttpGet(ApiRoutes.Todo.GetTodo)]
     [Produces<Todo>]
     [ActionName(nameof(GetTodoAsync))]

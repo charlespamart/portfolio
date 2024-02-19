@@ -1,8 +1,10 @@
-﻿using Application.Handlers.Todos.Commands.CreateTodo;
+﻿using System.Net;
+using Application.Handlers.Todos.Commands.CreateTodo;
 using Domain.Models;
 using FastEndpoints;
 using Mapster;
 using MediatR;
+using Presentation.FastEndpoints.Common;
 using Presentation.FastEndpoints.V2.Endpoints.Todos.CreateTodo.Models;
 using Presentation.FastEndpoints.V2.Endpoints.Todos.GetTodo;
 
@@ -14,8 +16,12 @@ public sealed class CreateTodoEndpoint(ISender mediator)
     public override void Configure()
     {
         Version(2);
-        Post("api/todos");
-        AllowAnonymous();
+        Post(ApiRoutes.Todo.CreateTodo);
+        Description(setup =>
+        {
+            setup.Produces<Todo>((int)HttpStatusCode.Created);
+            setup.Produces<ErrorResponse>((int)HttpStatusCode.BadRequest);
+        });
     }
 
     public override async Task HandleAsync(CreateTodoRequest request,

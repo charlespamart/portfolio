@@ -2,12 +2,10 @@
 
 public static class ApiRoutes
 {
-    private const string BaseUrl = "api/";
-
     public static class Todo
     {
-        public const string CreateTodo = BaseUrl + "todos";
-        public const string GetTodos = BaseUrl + "todos";
-        public const string GetTodo = BaseUrl + "todo/{TodoId}";
+        public const string CreateTodo = "todos";
+        public const string GetTodos = "todos";
+        public const string GetTodo = "todos/{TodoId}";
     }
 }
