@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Application.Handlers.Todos.Queries.GetTodos;
+﻿using Application.Handlers.Todos.Queries.GetTodos;
 using Domain.Models;
 using FastEndpoints;
 using MediatR;
