@@ -29,11 +29,8 @@ public sealed class GetTodoEndpoint(ISender mediator)
         var todo = await mediator.Send(new GetTodoQuery { Id = request.TodoId }, cancellationToken);
 
         if (todo is null)
-        {
             await SendNotFoundAsync(cancellationToken);
-            return;
-        }
-
-        await SendOkAsync(todo!, cancellationToken);
+        else
+            await SendOkAsync(todo!, cancellationToken);
     }
 }
