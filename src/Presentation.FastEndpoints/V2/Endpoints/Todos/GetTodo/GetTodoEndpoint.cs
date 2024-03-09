@@ -31,6 +31,6 @@ public sealed class GetTodoEndpoint(ISender mediator)
         if (todo is null)
             await SendNotFoundAsync(cancellationToken);
         else
-            await SendOkAsync(todo!, cancellationToken);
+            await SendOkAsync(todo, cancellationToken);
     }
 }
