@@ -12,6 +12,8 @@ public static class ConfigureWebApplication
                 setup.SwaggerEndpoint("/swagger/v2/swagger.json", "API V2");
             })
             .UseHttpsRedirection();
+        application.MapControllers();
+
         return application;
     }
 }

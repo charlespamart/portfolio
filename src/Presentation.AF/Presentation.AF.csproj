@@ -5,6 +5,7 @@
         <OutputType>Exe</OutputType>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <UserSecretsId>8503b755-ee10-4718-80ea-b407721b203b</UserSecretsId>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Mapster" Version="7.4.0" />
