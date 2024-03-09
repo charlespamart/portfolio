@@ -14,6 +14,11 @@ public static class ConfigureWebApplication
                 setup.Versioning.Prefix = "v";
                 setup.Versioning.PrependToRoute = true;
                 setup.Versioning.DefaultVersion = 1;
+                setup.Endpoints.RoutePrefix = "api";
+                setup.Endpoints.Configurator = ep =>
+                {
+                    ep.AllowAnonymous();
+                };
             })
             .UseSwaggerGen();
         return application;
