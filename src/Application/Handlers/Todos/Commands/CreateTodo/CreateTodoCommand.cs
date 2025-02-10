@@ -7,6 +7,7 @@ namespace Application.Handlers.Todos.Commands.CreateTodo;
 public sealed record CreateTodoCommand : IRequest<Todo>
 {
     public required string Name { get; init; }
+    public required int Index { get; init; }
 }
 
 public sealed class
@@ -17,7 +18,8 @@ public sealed class
     {
         var todo = new Todo
         {
-            Name = request.Name
+            Name = request.Name,
+            Index = request.Index
         };
 
         todoDbContext.Todo.Add(todo);

@@ -15,5 +15,5 @@ public sealed class
     public async Task<Todo?> Handle(GetTodoQuery request,
         CancellationToken cancellationToken) =>
         await todoDbContext.Todo
-            .FindAsync(new object?[] { request.Id }, cancellationToken: cancellationToken);
+            .FindAsync([request.Id], cancellationToken: cancellationToken);
 }

@@ -1,10 +1,10 @@
-﻿using Application.Handlers.Todos.Commands.CreateTodo;
-using Application.Handlers.Todos.Queries.GetTodo;
-using Application.Handlers.Todos.Queries.GetTodos;
+﻿using System.Reflection;
+using Application.Handlers.Todos.Commands.CreateTodo;
+using Application.Validation;
 using Domain.Models;
+using FluentResults;
 using FluentValidation;
 using MediatR;
-using MediatR.Registration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;
@@ -21,17 +21,22 @@ public static class ConfigureService
 
     private static void AddMediatR(this IServiceCollection services)
     {
-        var serviceConfig = new MediatRServiceConfiguration();
-        ServiceRegistrar.AddRequiredServices(services, serviceConfig);
-
-        services
-            .AddTransient<IRequestHandler<GetTodosQuery, ICollection<Todo>>, GetTodosQueryHandler>()
-            .AddTransient<IRequestHandler<GetTodoQuery, Todo?>, GetTodoQueryHandler>()
-            .AddTransient<IRequestHandler<CreateTodoCommand, Todo>, CreateTodoCommandHandler>();
+        services.AddMediatR(configuration =>
+            configuration
+                .RegisterServicesFromAssembly(Assembly.GetExecutingAssembly())
+                .AddMediatRBehaviors());
     }
 
     private static void AddFluentValidation(this IServiceCollection services) =>
         services
-            .AddSingleton<IValidator<CreateTodoCommand>, CreateTodoCommandValidator>()
-            .AddSingleton<IValidator<GetTodoQuery>, GetTodoQueryValidator>();
+            .AddTransient<IValidator<CreateTodoCommand>, CreateTodoCommandValidator>();
+
+    private static void AddMediatRBehaviors(this MediatRServiceConfiguration configuration)
+        => configuration.AddValidationBehavior<CreateTodoCommand, Todo>();
+    
+    private static void AddValidationBehavior<TRequest, TResponse>(
+        this MediatRServiceConfiguration configuration)
+        where TRequest : notnull
+        => configuration
+            .AddBehavior<IPipelineBehavior<TRequest, Result<TResponse>>, ValidationBehavior<TRequest, TResponse>>();
 }
